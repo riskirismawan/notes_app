@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
-import com.riski.noteapp.NoteViewModel
+import com.riski.noteapp.viewmodel.NoteViewModel
 import com.riski.noteapp.R
 import com.riski.noteapp.databinding.ActivityFormBinding
 import java.text.SimpleDateFormat
@@ -59,10 +57,6 @@ class FormActivity : AppCompatActivity() {
             }
         }
         return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        return super.onPrepareOptionsMenu(menu)
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.riski.noteapp.R
-import com.riski.noteapp.data.DataItem
+import com.riski.noteapp.data.NoteItem
 import com.riski.noteapp.databinding.ItemViewBinding
 import com.riski.noteapp.ui.FormActivity
 
 class ListNoteAdapter: RecyclerView.Adapter<ListNoteAdapter.ListViewHolder>() {
-    val notes = ArrayList<DataItem>()
+    val notes = ArrayList<NoteItem>()
 
-    fun setItems(items: List<DataItem>) {
+    fun setItems(items: List<NoteItem>) {
         notes.clear()
         notes.addAll(items)
         notifyDataSetChanged()
@@ -32,7 +32,7 @@ class ListNoteAdapter: RecyclerView.Adapter<ListNoteAdapter.ListViewHolder>() {
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val binding = ItemViewBinding.bind(itemView)
-        fun bind(note: DataItem) {
+        fun bind(note: NoteItem) {
             binding.apply {
                 tvMessage.text = note.message
                 tvDate.text = note.date

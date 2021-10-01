@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Response(
+data class NoteResponse(
 
 	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+	val data: List<NoteItem?>? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,
@@ -18,7 +18,7 @@ data class Response(
 ) : Parcelable
 
 @Parcelize
-data class DataItem(
+data class NoteItem(
 
 	@field:SerializedName("date")
 	val date: String? = null,
@@ -29,3 +29,5 @@ data class DataItem(
 	@field:SerializedName("message")
 	val message: String? = null
 ) : Parcelable
+
+
