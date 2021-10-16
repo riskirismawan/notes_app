@@ -40,7 +40,7 @@ class ListNoteAdapter: RecyclerView.Adapter<ListNoteAdapter.ListViewHolder>() {
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, FormActivity::class.java)
                     intent.putExtra(FormActivity.NOTE_RESPONSE, "edit")
-                    intent.putExtra(FormActivity.NOTE_ID, note.id)
+                    intent.putExtra(FormActivity.NOTE_ID, note.noteId)
                     itemView.context.startActivity(intent)
                 }
             }

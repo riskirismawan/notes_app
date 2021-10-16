@@ -14,7 +14,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.9/notesapi/php/")
+                .baseUrl("http://192.168.1.21/notesapi/php/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

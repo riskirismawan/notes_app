@@ -1,6 +1,7 @@
 package com.riski.noteapp.viewmodel
 
 import android.content.Context
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -14,46 +15,71 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserViewModel : ViewModel() {
-    fun getUsers(context: Context): LiveData<List<NoteItem>> {
-        val notes = MutableLiveData<List<NoteItem>>()
-        val client = ApiConfig.getApiService().getNotes()
-
-        client.enqueue(object: Callback<NoteResponse> {
-            override fun onResponse(call: Call<NoteResponse>, noteResponse: retrofit2.Response<NoteResponse>) {
-                if (noteResponse.isSuccessful) {
-                    notes.value = noteResponse.body()?.data as List<NoteItem>
-                } else {
-                    Toast.makeText(context, noteResponse.body()?.message, Toast.LENGTH_LONG).show()
-                }
-
-            }
-
-            override fun onFailure(call: Call<NoteResponse>, t: Throwable) {
-                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
-                Log.e("NoteViewModel", "onFailure: ", t)
-            }
-
-        })
-
-        return notes
-    }
 
     fun getUserByLogin(context: Context, username: String, password: String): LiveData<UserItem> {
         val user = MutableLiveData<UserItem>()
         val client = ApiConfig.getApiService().getUserByLogin(username = username, password = password)
+        val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
         client.enqueue(object: Callback<UserResponse> {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if (response.isSuccessful) {
                     if (!response.body()?.data.isNullOrEmpty()) {
                         val data = response.body()?.data as List<UserItem>
-                        user.value = data[0]
+                        if (!data[0].deviceId.isNullOrEmpty()) {
+                            if (data[0].deviceId == deviceId) {
+                                user.value = data[0]
+                                Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(context, "Akun sudah Masuk pada perangkat lain", Toast.LENGTH_LONG).show()
+                            }
+                        } else {
+                            user.value = data[0]
+                            Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                        }
                     }
-                    Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
                 }
 
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+                Log.e("UserViewModel", "onFailure: ", t)
+            }
+
+        })
+
+        return user
+    }
+
+    fun getUserByUsername(context: Context, username: String): LiveData<UserItem> {
+        val user = MutableLiveData<UserItem>()
+        val deviceId = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+        val client = ApiConfig.getApiService().getUserByUsername(username = username, deviceId = deviceId)
+
+        client.enqueue(object: Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    if (!response.body()?.data.isNullOrEmpty()) {
+                        val data = response.body()?.data as List<UserItem>
+                        if (!data[0].deviceId.isNullOrEmpty()) {
+                            if (data[0].deviceId == deviceId) {
+                                user.value = data[0]
+                                Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(context, "Akun sudah Masuk pada perangkat lain", Toast.LENGTH_LONG).show()
+                            }
+                        } else {
+                            Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                            user.value = data[0]
+                        }
+                    }
+                } else {
+                    Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                }
+                Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
@@ -98,6 +124,29 @@ class UserViewModel : ViewModel() {
                     Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                }
+
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+                Log.e("NoteViewModel", "onFailure: ", t)
+            }
+
+        })
+    }
+
+    fun updateUserDevice(context: Context, userId: String, deviceId: String?) {
+        val client = ApiConfig.getApiService().updateUserDeviceId(id = userId, deviceId = deviceId)
+
+        client.enqueue(object: Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+//                    Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                    Log.d("UserViewModel", "onResponse: ${response.body()?.message}")
+                } else {
+//                    Toast.makeText(context, response.body()?.message, Toast.LENGTH_LONG).show()
+                    Log.e("UserViewModel", "onResponse: ${response.body()?.message}")
                 }
 
             }

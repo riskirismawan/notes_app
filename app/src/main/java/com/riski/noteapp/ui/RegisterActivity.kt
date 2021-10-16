@@ -51,7 +51,7 @@ class RegisterActivity : AppCompatActivity()/*, EasyPermissions.PermissionCallba
         sharePref = getSharedPreferences(USER_DATA, Context.MODE_PRIVATE)
 
         if (sharePref.getString(getString(R.string.id), null) != null) {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(UserViewModel::class.java)

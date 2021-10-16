@@ -55,11 +55,9 @@ class ProfileActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks
             sharePref.getString(getString(R.string.profile_image), null)
         )
 
-        Log.e("ProfileActivity", "onCreate: $userData", )
-
         userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(UserViewModel::class.java)
 
-        val user = intent.getParcelableExtra<UserItem>(DATA)
+//        val user = intent.getParcelableExtra<UserItem>(DATA)
 
         binding.apply {
             Glide.with(this@ProfileActivity)
@@ -93,13 +91,14 @@ class ProfileActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks
             }
 
             tvDeleteProfile.setOnClickListener {
-                userData.id?.let { id -> userViewModel.deleteUser(this@ProfileActivity, id) }
+                userData.userId?.let { id -> userViewModel.deleteUser(this@ProfileActivity, id) }
                 sharePref.edit().clear().apply()
                 finish()
             }
 
             tvLogout.setOnClickListener {
                 sharePref.edit().clear().apply()
+//                userViewModel.updateUserDevice(this@ProfileActivity, userData.userId!!, "")
                 startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
             }
         }
@@ -147,7 +146,7 @@ class ProfileActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks
             // membuat formdata multipart berisi request body
             val body: MultipartBody.Part = MultipartBody.Part.createFormData("file", file.name, mFile)
 
-            userData.id?.let { id ->
+            userData.userId?.let { id ->
                 userData.username?.let { username ->
                     userData.password?.let { password ->
                         userViewModel.uploadImage(this, /*file.name.toString(),*/ body,

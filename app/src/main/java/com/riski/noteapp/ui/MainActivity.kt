@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharePref: SharedPreferences
     private val USER_DATA = "user data"
     private var isLogin = false
+    private var userId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         if (sharePref.getString(getString(R.string.id), null) != null) {
             isLogin = true
+            userId = sharePref.getString(getString(R.string.id), null)!!
         }
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(NoteViewModel::class.java)
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvNotes.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvNotes.adapter = adapter
 
-        viewModel.getNotes(this).observe(this, { notes ->
+        viewModel.getNotes(this, userId).observe(this, { notes ->
             if (!notes.isNullOrEmpty()) {
                 adapter.setItems(notes)
             }
@@ -58,22 +60,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
-        if (isLogin) {
-            menu?.getItem(0)?.isVisible = false
-            menu?.getItem(1)?.isVisible = false
-            menu?.getItem(2)?.isVisible = true
-        } else {
-            menu?.getItem(0)?.isVisible = true
-            menu?.getItem(1)?.isVisible = true
-            menu?.getItem(2)?.isVisible = false
-        }
+//        if (isLogin) {
+//            menu?.getItem(0)?.isVisible = false
+//            menu?.getItem(1)?.isVisible = false
+//            menu?.getItem(2)?.isVisible = true
+//        } else {
+//            menu?.getItem(0)?.isVisible = true
+//            menu?.getItem(1)?.isVisible = true
+//            menu?.getItem(2)?.isVisible = false
+//        }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.login -> startActivity(Intent(this, LoginActivity::class.java))
-            R.id.register -> startActivity(Intent(this, RegisterActivity::class.java))
+//            R.id.login -> startActivity(Intent(this, LoginActivity::class.java))
+//            R.id.register -> startActivity(Intent(this, RegisterActivity::class.java))
             R.id.profile -> startActivity(Intent(this, ProfileActivity::class.java))
         }
         return true

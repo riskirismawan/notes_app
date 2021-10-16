@@ -13,14 +13,16 @@ import retrofit2.Call
 import retrofit2.Callback
 
 class NoteViewModel: ViewModel() {
-    fun getNotes(context: Context): LiveData<List<NoteItem>> {
+    fun getNotes(context: Context, userId: String): LiveData<List<NoteItem>> {
         val notes = MutableLiveData<List<NoteItem>>()
-        val client = ApiConfig.getApiService().getNotes()
+        val client = ApiConfig.getApiService().getNotes(user_id = userId)
 
         client.enqueue(object: Callback<NoteResponse> {
             override fun onResponse(call: Call<NoteResponse>, noteResponse: retrofit2.Response<NoteResponse>) {
                 if (noteResponse.isSuccessful) {
-                    notes.value = noteResponse.body()?.data as List<NoteItem>
+                    if (!noteResponse.body()?.data.isNullOrEmpty()) {
+                        notes.value = noteResponse.body()?.data as List<NoteItem>
+                    }
                 } else {
                     Toast.makeText(context, noteResponse.body()?.message, Toast.LENGTH_LONG).show()
                 }
@@ -39,7 +41,7 @@ class NoteViewModel: ViewModel() {
 
     fun getNoteById(context: Context, noteId: String): LiveData<NoteItem> {
         val note = MutableLiveData<NoteItem>()
-        val client = ApiConfig.getApiService().getNoteById(id = noteId)
+        val client = ApiConfig.getApiService().getNoteById(note_id = noteId)
 
         client.enqueue(object: Callback<NoteResponse> {
             override fun onResponse(call: Call<NoteResponse>, noteResponse: retrofit2.Response<NoteResponse>) {
@@ -62,8 +64,8 @@ class NoteViewModel: ViewModel() {
         return note
     }
 
-    fun insertNote(context: Context, message: String, date: String) {
-        val client = ApiConfig.getApiService().insertNote(message, date)
+    fun insertNote(context: Context, userId: String, message: String, date: String) {
+        val client = ApiConfig.getApiService().insertNote(userId, message, date)
 
         client.enqueue(object: Callback<NoteResponse> {
             override fun onResponse(call: Call<NoteResponse>, noteResponse: retrofit2.Response<NoteResponse>) {
@@ -84,7 +86,7 @@ class NoteViewModel: ViewModel() {
     }
 
     fun updateNote(context: Context, noteId: String, message: String, date: String) {
-        val client = ApiConfig.getApiService().updateNote(message, date, id = noteId)
+        val client = ApiConfig.getApiService().updateNote(message, date, note_id = noteId)
 
         client.enqueue(object: Callback<NoteResponse> {
             override fun onResponse(call: Call<NoteResponse>, noteResponse: retrofit2.Response<NoteResponse>) {
@@ -105,7 +107,7 @@ class NoteViewModel: ViewModel() {
     }
 
     fun deleteNote(context: Context, noteId: String) {
-        val client = ApiConfig.getApiService().deleteNoteById(id = noteId)
+        val client = ApiConfig.getApiService().deleteNoteById(note_id = noteId)
 
         client.enqueue(object: Callback<NoteResponse> {
             override fun onResponse(call: Call<NoteResponse>, noteResponse: retrofit2.Response<NoteResponse>) {

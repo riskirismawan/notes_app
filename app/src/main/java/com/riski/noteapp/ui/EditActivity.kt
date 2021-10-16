@@ -75,7 +75,7 @@ class EditActivity : AppCompatActivity() {
                         username.requestFocus()
                     }
                     else -> {
-                        userData.id?.let { id ->
+                        userData.userId?.let { id ->
                             userData.password?.let { password ->
                                 userViewModel.updateUser(this@EditActivity,
                                     id, binding.username.text.toString(), password, userData.profileImage)
@@ -106,7 +106,7 @@ class EditActivity : AppCompatActivity() {
                         passwordKonfirm.requestFocus()
                     }
                     else -> {
-                        userData.id?.let { id ->
+                        userData.userId?.let { id ->
                             userData.username?.let { username ->
                                 userViewModel.updateUser(this@EditActivity,
                                     id, username, password.text.toString(), userData.profileImage)

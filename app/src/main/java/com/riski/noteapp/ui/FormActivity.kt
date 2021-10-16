@@ -1,7 +1,9 @@
 package com.riski.noteapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -23,12 +25,21 @@ class FormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormBinding
     private lateinit var viewModel: NoteViewModel
+    private lateinit var sharePref: SharedPreferences
+    private val USER_DATA = "user data"
     private var isEdit = false
+    private var userId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharePref = getSharedPreferences(USER_DATA, Context.MODE_PRIVATE)
+
+        if (sharePref.getString(getString(R.string.id), null) != null) {
+            userId = sharePref.getString(getString(R.string.id), null)!!
+        }
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(NoteViewModel::class.java)
 
@@ -70,7 +81,7 @@ class FormActivity : AppCompatActivity() {
                         viewModel.updateNote(this, key, binding.edtMessage.text.toString(), date)
                     }
                 } else {
-                    viewModel.insertNote(this, binding.edtMessage.text.toString(), date)
+                    viewModel.insertNote(this, userId, binding.edtMessage.text.toString(), date)
                 }
                 startActivity(Intent(this, MainActivity::class.java))
             }

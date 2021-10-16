@@ -23,8 +23,11 @@ data class NoteItem(
 	@field:SerializedName("date")
 	val date: String? = null,
 
-	@field:SerializedName("id")
-	val id: String? = null,
+	@field:SerializedName("note_id")
+	val noteId: String? = null,
+
+	@field:SerializedName("user_id")
+	val userId: String? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null

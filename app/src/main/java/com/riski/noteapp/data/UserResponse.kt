@@ -21,8 +21,8 @@ data class UserResponse(
 @Parcelize
 data class UserItem(
 
-    @field:SerializedName("id")
-    val id: String? = null,
+    @field:SerializedName("user_id")
+    val userId: String? = null,
 
     @field:SerializedName("username")
     val username: String? = null,
@@ -31,5 +31,8 @@ data class UserItem(
     val password: String? = null,
 
     @field:SerializedName("profileImage")
-    val profileImage: String? = null
+    val profileImage: String? = null,
+
+    @field:SerializedName("device_id")
+    val deviceId: String? = null
 ) : Parcelable
