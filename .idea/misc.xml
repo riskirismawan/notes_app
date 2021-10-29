@@ -3,15 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_access_time_black.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.11574074074074074" />
         <entry key="app/src/main/res/drawable/ic_baseline_note_24.xml" value="0.11574074074074074" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.11574074074074074" />
         <entry key="app/src/main/res/drawable/input_field.xml" value="0.13518518518518519" />
+        <entry key="app/src/main/res/layout/activity_alarm.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_edit.xml" value="0.1453804347826087" />
         <entry key="app/src/main/res/layout/activity_form.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.15" />
         <entry key="app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.22" />

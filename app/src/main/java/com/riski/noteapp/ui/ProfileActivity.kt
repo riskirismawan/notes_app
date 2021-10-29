@@ -96,6 +96,10 @@ class ProfileActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks
                 finish()
             }
 
+            tvAlarm.setOnClickListener {
+                startActivity(Intent(this@ProfileActivity, AlarmActivity::class.java))
+            }
+
             tvLogout.setOnClickListener {
                 sharePref.edit().clear().apply()
 //                userViewModel.updateUserDevice(this@ProfileActivity, userData.userId!!, "")
